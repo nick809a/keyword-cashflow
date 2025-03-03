@@ -17,6 +17,7 @@ const Index = () => {
   const [searchVolume, setSearchVolume] = useState<number>(0);
   const [conversionRate, setConversionRate] = useState<number>(2);
   const [aov, setAOV] = useState<number>(100);
+  const [maxSearchVolume, setMaxSearchVolume] = useState<number>(1000000);
   
   // State for results
   const [results, setResults] = useState<RevenueData[]>([]);
@@ -81,6 +82,7 @@ const Index = () => {
                   setKeyword={setKeyword}
                   searchVolume={searchVolume}
                   setSearchVolume={setSearchVolume}
+                  maxSearchVolume={maxSearchVolume}
                 />
                 
                 <Separator className="my-6" />

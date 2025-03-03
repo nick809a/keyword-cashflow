@@ -8,6 +8,7 @@ interface KeywordInputProps {
   setKeyword: (value: string) => void;
   searchVolume: number | string;
   setSearchVolume: (value: number) => void;
+  maxSearchVolume?: number;
   className?: string;
 }
 
@@ -16,6 +17,7 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
   setKeyword,
   searchVolume,
   setSearchVolume,
+  maxSearchVolume = 1000000,
   className = '',
 }) => {
   const handleSearchVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +28,8 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
     } else {
       // Remove commas before parsing
       const numericValue = parseInt(value.replace(/,/g, ''), 10);
-      // Check if it's a valid number and below 1 million
-      if (!isNaN(numericValue) && numericValue <= 1000000) {
+      // Check if it's a valid number and below the max search volume
+      if (!isNaN(numericValue) && numericValue <= maxSearchVolume) {
         setSearchVolume(numericValue);
       }
     }
@@ -55,7 +57,7 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
         <Input
           id="search-volume"
           type="text"
-          placeholder="e.g. 1000 (max: 1,000,000)"
+          placeholder={`e.g. 1000 (max: ${maxSearchVolume.toLocaleString()})`}
           value={typeof searchVolume === 'number' ? searchVolume.toLocaleString() : searchVolume}
           onChange={handleSearchVolumeChange}
           className="input-transition focus:ring-2 focus:ring-primary/20"
