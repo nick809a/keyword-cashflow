@@ -24,8 +24,10 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
     if (value === '') {
       setSearchVolume(0);
     } else {
+      // Remove commas before parsing
       const numericValue = parseInt(value.replace(/,/g, ''), 10);
-      if (!isNaN(numericValue)) {
+      // Check if it's a valid number and below 1 million
+      if (!isNaN(numericValue) && numericValue <= 1000000) {
         setSearchVolume(numericValue);
       }
     }
@@ -53,7 +55,7 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
         <Input
           id="search-volume"
           type="text"
-          placeholder="e.g. 1000"
+          placeholder="e.g. 1000 (max: 1,000,000)"
           value={typeof searchVolume === 'number' ? searchVolume.toLocaleString() : searchVolume}
           onChange={handleSearchVolumeChange}
           className="input-transition focus:ring-2 focus:ring-primary/20"
