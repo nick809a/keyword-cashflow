@@ -23,14 +23,21 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
   const handleSearchVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Allow empty string or convert to number
     const value = e.target.value;
+    
     if (value === '') {
       setSearchVolume(0);
     } else {
-      // Remove commas before parsing
-      const numericValue = parseInt(value.replace(/,/g, ''), 10);
+      // Remove all non-numeric characters (including commas) before parsing
+      const numericValue = parseInt(value.replace(/[^\d]/g, ''), 10);
+      
       // Check if it's a valid number and below the max search volume
-      if (!isNaN(numericValue) && numericValue <= maxSearchVolume) {
-        setSearchVolume(numericValue);
+      if (!isNaN(numericValue)) {
+        if (numericValue <= maxSearchVolume) {
+          setSearchVolume(numericValue);
+        } else {
+          // If value exceeds max, set to max
+          setSearchVolume(maxSearchVolume);
+        }
       }
     }
   };
